@@ -1,0 +1,33 @@
+#!/bin/bash
+
+#To edit the veth port name on a name spacae
+echo "Set new name for the port 1: "
+read port1v1
+echo "Set new name for the port 2: "
+read port2v1
+sudo ip netns exec "$namespace_1" ip link set "$port1" name "$port1v1"
+sudo ip netns exec "$namespace_2" ip link set "$port2" name "$port2v1"
+
+#Set ip address in a name space
+echo "Give ip for first name space: "
+read ip1
+echo "Give ip for secend name space: "
+read ip2
+sudo ip netns exec "$namespace_1" ip addr add $ip1 dev eth0
+sudo ip netns exec "$namespace_2" ip addr add $ip2 dev eth0
+echo "IP for name space 1: $ip1"
+echo "IP for name space 2: $ip2"
+
+#Up the ports
+sudo ip netns exec "$namespace_1" ip link set 'lo' up
+sudo ip netns exec "$namespace_1" ip link set 'eth0' up
+sudo ip netns exec "$namespace_2" ip link set 'lo' up
+sudo ip netns exec "$namespace_2" ip link set 'eth0' up
+
+#Set the default getway in namespace
+echo "Set getway IP for name space 1: "
+read gip1
+echo "Set getway IP for name space 2: "
+read gip2
+sudo ip netns exec "$namespace_1" ip route add default via $gip1 dev eth0
+sudo ip netns exec "$namespace_2" ip route add default via $gip2 dev eth0
