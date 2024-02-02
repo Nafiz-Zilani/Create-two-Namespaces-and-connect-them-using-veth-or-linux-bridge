@@ -29,8 +29,8 @@ sudo ip link set veth-ns1-br master v-br
 sudo ip link set veth-ns2-br master v-br
 
 > Assigne ip address to veth:
-sudo ip netns exec ns1 ip addr add 10.30.1.1/24 dev veth-ns1 | sudo ip -n ns1 addr add 10.30.1.1/24 dev veth-ns1
-sudo ip netns exec ns2 ip addr add 10.30.1.2/24 dev veth-ns2 | sudo ip -n ns2 addr add 10.11.1.2/24 dev veth-ns2
+sudo ip netns exec ns1 ip addr add 10.30.1.1/24 dev veth-ns1
+sudo ip netns exec ns2 ip addr add 10.30.1.2/24 dev veth-ns2
 
 
 > Bringing up the interface up on the namespace side
